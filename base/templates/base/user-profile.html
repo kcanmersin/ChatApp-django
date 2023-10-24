@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>User Profile</title>
+</head>
+<body>
+    <h1>User Profile</h1>
+    
+    <!-- Display the user's avatar -->
+    <img src="{{ user.avatar.url }}" alt="{{ user.username }} Avatar" width="150" height="150">
+    
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Followers:</strong> {{ user.followers.all|length }}</p>
+    <p><strong>Following:</strong> {{ user.following.all|length }}</p>
+    <p><strong>Bio:</strong> {{ user.bio }}</p>
+    
+    <!-- if current user follow that account write unfollow if it is not write follow -->
+    {% if is_following %}
+    <form method="POST" action="{% url 'unfollow' user.id %}">
+        {% csrf_token %}
+        <button id="unfollow-button" type="submit">Unfollow</button>
+    </form>
+    {% elif user != request.user %}
+    <form method="POST" action="{% url 'follow' user.id %}">
+        {% csrf_token %}
+        <button id="follow-button" type="submit">Follow</button>
+    </form>
+    {% else %}
+        <a href="{% url 'edit-profile' %}">Edit Profile</a>
+    {% endif %}
+
+
+    <!-- when touch this open chat-room.html with that user-->
+
+    <a href="{% url 'chat-room' user.id %}">Chat Room</a>
+    <a href=""></a>
+
+</body>
+</html>

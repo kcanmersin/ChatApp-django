@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WhatsApp-like Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .header {
+            background-color: #075e54;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .back-button {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .conversation-info {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .conversation-name {
+            font-size: 18px;
+        }
+
+        .conversation-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+
+        .messages {
+            background-color: #e5ddd5;
+            min-height: 400px;
+            padding: 10px;
+        }
+
+        .message {
+            background-color: #ffffff;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            clear: both;
+            max-width: 70%;
+        }
+
+        .message.received {
+            float: left;
+            background-color: #dcf8c6;
+        }
+
+        .message.sent {
+            float: right;
+        }
+
+        .message-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="{% url 'home' %}" class="back-button">Geri</a>
+
+            <div class="conversation-info">
+                <div class="conversation-name">{{profile_user.username}}</div>
+            </div>
+            <img class="conversation-image" src="https://via.placeholder.com/40" alt="Conversation Image">
+        </div>
+
+        <div class="messages">
+            <!-- write messages  wiht for loop take care of who receive who sent  -->
+            
+            <div class="messages">
+                {% for message in messages %}
+                    {% if message.user == current_user %}
+                        <div class="message sent">{{ message.body }}</div>
+                    {% else %}
+                        <div class="message received">{{ message.body }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+        </div>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ form.body.label_tag }} {# Metin girişi etiketi #}
+            <textarea name="body" rows="4" cols="50">{{ form.body.value }}</textarea> {# Metin girişi alanı - rows ve cols değerlerini ayarlayabilirsiniz #}
+            <input type="submit" value="Submit" />
+        </form>
+        
+        
+        
+        
+    </div>
+</body>
+</html>

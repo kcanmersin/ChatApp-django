@@ -1,0 +1,14 @@
+<form method="GET" action="{% url 'search' %}">
+  <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
+  <input type="submit" value="Search" />
+</form>
+{% if results %}
+<h2>Search Results ({{ results|length }} results):</h2>
+<ul>
+  {% for user in results %}
+    <li><a href="{% url 'user-profile' user.id %}">{{ user.username }}</a></li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No results found.</p>
+{% endif %}
